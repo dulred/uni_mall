@@ -1,0 +1,18 @@
+import type { AddressItem } from '@/types/address'
+import { defineStore } from 'pinia'
+import { ref } from 'vue'
+
+// 定义 Store
+export const useAddressStore = defineStore('address', () => {
+  const selectedAddress = ref<AddressItem>()
+
+  const changeSelectedAddress = (val: AddressItem) => {
+    selectedAddress.value = val
+  }
+
+  // 记得 return
+  return {
+    selectedAddress,
+    changeSelectedAddress,
+  }
+})

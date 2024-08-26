@@ -37,7 +37,7 @@ defineProps<{
 <style lang="scss">
 /* 轮播图 */
 .carousel {
-  height: 280rpx;
+  height: 450rpx;
   position: relative;
   overflow: hidden;
   transform: translateY(0);

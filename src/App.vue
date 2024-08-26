@@ -48,4 +48,8 @@ image {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
+
+.uni-easyinput {
+  width: 80% !important;
+}
 </style>

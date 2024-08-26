@@ -9,7 +9,8 @@
  * Copyright (c) 2024 by ${git_name_email}, All Rights Reserved.
  */
 // 存放路径: src/services/home.ts
-import type { BannerItem } from '@/types/home'
+import type { BannerItem, CategoryItem, HotItem, GuessItem } from '@/types/home'
+import type { PageResult, PageParams } from '@/types/global'
 import { http } from '@/utils/http'
 /**
  * 首页-广告区域-小程序

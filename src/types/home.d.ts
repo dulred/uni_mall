@@ -9,6 +9,7 @@
  * Copyright (c) 2024 by ${git_name_email}, All Rights Reserved.
  */
 /** 首页-广告区域数据类型 */
+import type { GoodsItem } from './global'
 export type BannerItem = {
   /** 跳转链接 */
   hrefUrl: string
@@ -20,15 +21,15 @@ export type BannerItem = {
   type: number
 }
 
-/** 首页-前台类目数据类型 */
-export type CategoryItem = {
-  /** 图标路径 */
-  icon: string
-  /** id */
-  id: string
-  /** 分类名称 */
-  name: string
-}
+// /** 首页-前台类目数据类型 */
+// export type CategoryItem = {
+//   /** 图标路径 */
+//   icon: string
+//   /** id */
+//   id: string
+//   /** 分类名称 */
+//   name: string
+// }
 
 /** 首页-热门推荐数据类型 */
 export type HotItem = {
@@ -47,19 +48,16 @@ export type HotItem = {
 }
 
 /** 猜你喜欢-商品类型 */
-export type GuessItem = {
-  /** 商品描述 */
-  desc: string
-  /** 商品折扣 */
-  discount: number
-  /** id */
+export type GuessItem = GoodsItem
+
+/** 首页-分类商品模块 */
+export type ClassifyItem = {
+  /** 唯一id */
   id: string
-  /** 商品名称 */
-  name: string
-  /** 商品已下单数量 */
-  orderNum: number
-  /** 商品图片 */
-  picture: string
-  /** 商品价格 */
-  price: number
+  /** 类型id */
+  type: string
+  /** 图片路径 */
+  src: string
+  /** 标题 */
+  title: string
 }
