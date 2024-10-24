@@ -10,8 +10,6 @@ export type CartItem = {
   picture: string
   /** 数量 */
   count: number
-  /** 加入时价格 */
-  price: number
   /** 当前的价格 */
   nowPrice: number
   /** 库存 */
@@ -20,6 +18,4 @@ export type CartItem = {
   selected: boolean
   /** 属性文字 */
   attrsText: string
-  /** 是否为有效商品 */
-  isEffective: boolean
 }

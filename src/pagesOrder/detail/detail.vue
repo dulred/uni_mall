@@ -10,16 +10,15 @@ import {
   getMemberOrderLogisticsByIdAPI,
   putMemberOrderReceiptByIdAPI,
   deleteMemberOrderAPI,
+  getMemberOrderCancelByIdAPI,
 } from '@/services/order'
 import { onLoad } from '@dcloudio/uni-app'
 import { getPayMockAPI, getPayWxPayMiniPayAPI } from '@/services/pay'
 
-// 获取屏幕边界到安全区域距离
-const { safeAreaInsets } = uni.getSystemInfoSync()
 // 猜你喜欢
 const { guessRef, onScrolltolower } = useGuessList()
 // 弹出层组件
-const popup = ref<UniHelper.UniPopupInstance>()
+const popup = ref()
 // 取消原因列表
 const reasonList = ref([
   '商品无货',
@@ -88,35 +87,23 @@ onLoad(() => {
 
 // 倒计时结束事件
 const onTimeup = () => {
-  // 修改订单状态为已取消
+  // 修改订单状态为已取消,后端也会计算时间
   order.value!.orderState = OrderState.YiQuXiao
 }
 
 // 订单支付
 const onOrderPay = async () => {
-  // 通过环境变量区分开发环境
-  if (import.meta.env.DEV) {
-    // 开发环境：模拟支付，修改订单状态为已支付
-    await getPayMockAPI({ orderId: query.id })
-  } else {
-    // 生产环境：获取支付参数 + 发起微信支付
-    const res = await getPayWxPayMiniPayAPI({ orderId: query.id })
-    await wx.requestPayment(res.result)
-  }
+  await getPayMockAPI({ orderId: query.id })
   // 关闭当前页，再跳转支付结果页
   uni.redirectTo({ url: `/pagesOrder/payment/payment?id=${query.id}` })
 }
 
-// 是否为开发环境
-const isDev = import.meta.env.DEV
 // 模拟发货
 const onOrderSend = async () => {
-  if (isDev) {
-    await getMemberOrderConsignmentByIdAPI(query.id)
-    uni.showToast({ icon: 'success', title: '模拟发货完成' })
-    // 主动更新订单状态
-    order.value!.orderState = OrderState.DaiShouHuo
-  }
+  await getMemberOrderConsignmentByIdAPI(query.id)
+  uni.showToast({ icon: 'success', title: '模拟发货完成' })
+  // 主动更新订单状态
+  order.value!.orderState = OrderState.DaiShouHuo
 }
 
 // 确认收货
@@ -158,11 +145,27 @@ const onOrderDelete = () => {
     },
   })
 }
+
+// 取消订单
+const onOrderCancel = () => {
+  // 二次确认弹窗
+  uni.showModal({
+    content: '请确定是否取消订单',
+    success: async (success) => {
+      if (success.confirm) {
+        const res = await getMemberOrderCancelByIdAPI(query.id, { cancelReason: reason.value })
+        // 更新订单状态
+        order.value = res.result
+        popup.value!.close()
+      }
+    },
+  })
+}
 </script>
 
 <template>
   <!-- 自定义导航栏: 默认透明不可见, scroll-view 滚动到 50 时展示 -->
-  <view class="navbar" :style="{ paddingTop: safeAreaInsets?.top + 'px' }">
+  <view class="navbar" :style="{ paddingTop: '130rpx' }">
     <view class="wrap">
       <navigator
         v-if="pages.length > 1"
@@ -177,7 +180,7 @@ const onOrderDelete = () => {
   <scroll-view scroll-y class="viewport" id="scroller" @scrolltolower="onScrolltolower">
     <template v-if="order">
       <!-- 订单状态 -->
-      <view class="overview" :style="{ paddingTop: safeAreaInsets!.top + 20 + 'px' }">
+      <view class="overview" :style="{ paddingTop: '130rpx' }">
         <!-- 待付款状态:展示去支付按钮和倒计时 -->
         <template v-if="order.orderState === OrderState.DaiFuKuan">
           <view class="status icon-clock">等待付款</view>
@@ -196,6 +199,7 @@ const onOrderDelete = () => {
           </view>
           <view class="button" @tap="onOrderPay">去支付</view>
         </template>
+
         <!-- 其他订单状态:展示再次购买按钮 -->
         <template v-else>
           <!-- 订单状态文字 -->
@@ -209,11 +213,7 @@ const onOrderDelete = () => {
               再次购买
             </navigator>
             <!-- 待发货状态：模拟发货,开发期间使用,用于修改订单状态为已发货 -->
-            <view
-              v-if="isDev && order.orderState == OrderState.DaiFaHuo"
-              @tap="onOrderSend"
-              class="button"
-            >
+            <view v-if="order.orderState == OrderState.DaiFaHuo" @tap="onOrderSend" class="button">
               模拟发货
             </view>
             <!-- 待收货状态: 展示确认收货按钮 -->
@@ -308,7 +308,7 @@ const onOrderDelete = () => {
       <view class="toolbar" :style="{ paddingBottom: safeAreaInsets?.bottom + 'px' }">
         <!-- 待付款状态:展示支付按钮 -->
         <template v-if="order.orderState === OrderState.DaiFuKuan">
-          <view class="button primary"> 去支付 </view>
+          <view class="button primary" @tap="onOrderPay"> 去支付 </view>
           <view class="button" @tap="popup?.open?.()"> 取消订单 </view>
         </template>
         <!-- 其他订单状态:按需展示按钮 -->
@@ -321,7 +321,11 @@ const onOrderDelete = () => {
             再次购买
           </navigator>
           <!-- 待收货状态: 展示确认收货 -->
-          <view class="button primary" v-if="order.orderState === OrderState.DaiShouHuo">
+          <view
+            class="button primary"
+            v-if="order.orderState === OrderState.DaiShouHuo"
+            @tap="onOrderConfirm"
+          >
             确认收货
           </view>
           <!-- 待评价状态: 展示去评价 -->
@@ -350,12 +354,12 @@ const onOrderDelete = () => {
         <view class="tips">请选择取消订单的原因：</view>
         <view class="cell" v-for="item in reasonList" :key="item" @tap="reason = item">
           <text class="text">{{ item }}</text>
-          <text class="icon" :class="{ checked: item === reason }"></text>
+          <text class="icon-yuanxingweixuanzhong" :class="{ checked: item === reason }"></text>
         </view>
       </view>
       <view class="footer">
         <view class="button" @tap="popup?.close?.()">取消</view>
-        <view class="button primary">确认</view>
+        <view class="button primary" @tap="onOrderCancel">确认</view>
       </view>
     </view>
   </uni-popup>
@@ -367,6 +371,11 @@ page {
   flex-direction: column;
   height: 100%;
   overflow: hidden;
+}
+
+.icon-yuanxingweixuanzhong.checked::before {
+  color: #c3a769;
+  content: '\e618';
 }
 
 .navbar {
@@ -395,6 +404,7 @@ page {
     .back {
       position: absolute;
       left: 0;
+      top: -50rpx;
       height: 44px;
       width: 44px;
       font-size: 44rpx;

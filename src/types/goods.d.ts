@@ -8,11 +8,9 @@ export type GoodsResult = {
   /** 商品名称 */
   name: string
   /** 商品描述 */
-  desc: string
+  description: string
   /** 当前价格 */
   price: number
-  /** 原价 */
-  oldPrice: number
   /** 商品详情: 包含详情属性 + 详情图片 */
   details: Details
   /** 主图图片集合[ 主图图片链接 ] */
@@ -23,8 +21,6 @@ export type GoodsResult = {
   skus: SkuItem[]
   /** 可选规格集合备注[ 可选规格信息 ] */
   specs: SpecItem[]
-  /** 用户地址列表[ 地址信息 ] */
-  userAddresses: AddressItem[]
 }
 
 /** 商品详情: 包含详情属性 + 详情图片 */
@@ -49,8 +45,6 @@ export type SkuItem = {
   id: string
   /** 库存 */
   inventory: number
-  /** 原价 */
-  oldPrice: number
   /** sku图片 */
   picture: string
   /** 当前价格 */
@@ -79,12 +73,6 @@ export type SpecItem = {
 
 /** 可选值信息 */
 export type SpecValueItem = {
-  /** 是否可售 */
-  available: boolean
-  /** 可选值备注 */
-  desc: string
   /** 可选值名称 */
   name: string
-  /** 可选值图片链接 */
-  picture: string
 }

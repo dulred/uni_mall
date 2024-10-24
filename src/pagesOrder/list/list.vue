@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import OrderList from './components/OrderList.vue'
+import { onShow } from '@dcloudio/uni-app'
 
 // tabs 数据
 const orderTabs = ref([
@@ -14,17 +15,24 @@ const orderTabs = ref([
 //获取页面参数
 const query = defineProps<{
   type: string
+  val: string
 }>()
 
 //高亮下标
 const activeIndex = ref(orderTabs.value.findIndex((v) => v.orderState === Number(query.type)))
+
+onShow(() => {
+  if (query.val) {
+    activeIndex.value = -100
+  }
+})
 </script>
 
 <template>
   <!-- 搜索框 -->
   <navigator class="search" url="/pagesOrder/search/search">
     <view class="input">
-      <text class="icon-sousuo">请输入搜索的订单</text>
+      <text class="icon-sousuo">{{ query.val ? query.val : '搜索订单' }}</text>
     </view>
   </navigator>
   <view class="viewport">
@@ -42,9 +50,7 @@ const activeIndex = ref(orderTabs.value.findIndex((v) => v.orderState === Number
       <view class="cursor" :style="{ left: activeIndex * 20 + '%' }"></view>
     </view>
     <!-- 订单 -->
-    <OrderList :order-state="1" />
-    <!-- 猜你喜欢模块 -->
-    <XtxGuess />
+    <OrderList class="orderList" :order-state="activeIndex" :val="query.val" />
   </view>
 </template>
 
@@ -82,7 +88,11 @@ page {
   flex-direction: column;
   background-color: #fff;
 }
-
+.orderList {
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
+}
 // tabs
 .tabs {
   display: flex;

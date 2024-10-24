@@ -33,7 +33,7 @@ const onAvatarChange = () => {
       const { tempFilePath } = res.tempFiles[0]
       //文件上传
       uni.uploadFile({
-        url: '/member/profile/avatar',
+        url: '/upload/avatar',
         name: 'file',
         filePath: tempFilePath,
         success: (res) => {
@@ -81,9 +81,9 @@ const onSubmit = async () => {
     nickname,
     gender,
     birthday,
-    provinceCode: fullLocationCode[0] || undefined,
-    cityCode: fullLocationCode[1] || undefined,
-    countyCode: fullLocationCode[2] || undefined,
+    provinceCode: fullLocationCode[0] || '110000',
+    cityCode: fullLocationCode[1] || '110100',
+    countyCode: fullLocationCode[2] || '110101',
     profession,
   })
   //更新store昵称
@@ -113,10 +113,6 @@ const onSubmit = async () => {
     <view class="form">
       <!-- 表单内容 -->
       <view class="form-content">
-        <view class="form-item">
-          <text class="label">账号</text>
-          <text class="account">{{ profile?.account }}</text>
-        </view>
         <view class="form-item">
           <text class="label">昵称</text>
           <input class="input" type="text" placeholder="请填写昵称" v-model="profile!.nickname" />

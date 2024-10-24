@@ -9,7 +9,6 @@ import { postMemberCartAPI } from '@/services/cart'
 import type { GoodsResult } from '@/types/goods'
 import { onLoad } from '@dcloudio/uni-app'
 import { computed, ref } from 'vue'
-import AddressPanel from './components/AddressPanel.vue'
 import ServicePanel from './components/ServicePanel.vue'
 import PageSkeleton from './components/PageSkeleton.vue'
 
@@ -71,7 +70,7 @@ const popup = ref<{
 }>()
 
 // 弹出层渲染
-const popupName = ref<'address' | 'service'>()
+const popupName = ref<'service'>()
 const openPopup = (name: typeof popupName.value) => {
   //修改弹出层名称
   popupName.value = name
@@ -155,7 +154,7 @@ const onBuyNow = (ev: SkuPopupEvent) => {
           <text class="number">{{ goods?.price }}</text>
         </view>
         <view class="name ellipsis">{{ goods?.name }} </view>
-        <view class="desc">{{ goods?.desc }} </view>
+        <view class="desc">{{ goods?.description }} </view>
       </view>
 
       <!-- 操作面板 -->
@@ -163,10 +162,6 @@ const onBuyNow = (ev: SkuPopupEvent) => {
         <view class="item arrow" @tap="openSkuPopup(SkuMode.Both)">
           <text class="label">选择</text>
           <text class="text ellipsis"> {{ selectArrText }} </text>
-        </view>
-        <view class="item arrow" @tap="openPopup('address')">
-          <text class="label">送至</text>
-          <text class="text ellipsis"> 请选择收获地址 </text>
         </view>
         <view @tap="openPopup('service')" class="item arrow">
           <text class="label">服务</text>
@@ -211,7 +206,7 @@ const onBuyNow = (ev: SkuPopupEvent) => {
           hover-class="none"
           :url="`/pages/goods/goods?id=${item.id}`"
         >
-          <image class="image" mode="aspectFill" :src="item.picture"></image>
+          <image class="image" mode="aspectFill" :src="item.pictureUrl"></image>
           <view class="name ellipsis">{{ item.name }}</view>
           <view class="price">
             <text class="symbol">¥</text>
@@ -241,7 +236,6 @@ const onBuyNow = (ev: SkuPopupEvent) => {
   </view>
   <!-- uni-ui 弹出层 -->
   <uni-popup ref="popup" type="bottom" background-color="#ffff">
-    <AddressPanel v-if="popupName === 'address'" @close="popup?.close()" />
     <ServicePanel v-if="popupName === 'service'" @close="popup?.close()" />
   </uni-popup>
 </template>

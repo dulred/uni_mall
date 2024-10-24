@@ -1,9 +1,15 @@
 <script setup lang="ts">
 import { onLoad } from '@dcloudio/uni-app'
 import Classify from './components/Classify.vue'
-import { getHomeBannerAPI, getHomeHotAPI } from '@/services/home'
-import type { BannerItem, HotItem, ClassifyItem } from '@/types/home'
-import type { GoodsItem } from '@/types/global'
+import {
+  getHomeBannerAPI,
+  getSwAPI,
+  getHomeGoodsNewAPI,
+  getHomeGoodsJinpinAPI,
+  getHomeGoodsTopAPI,
+} from '@/services/home'
+import type { BannerItem, ClassifyItem } from '@/types/home'
+import type { GoodsItem, PageParams } from '@/types/global'
 import { ref } from 'vue'
 import { useGuessList } from '@/composables'
 import PageSkeleton from './components/PageSkeleton.vue'
@@ -64,71 +70,59 @@ classifyList.value = [
   },
 ]
 
-// 获取新品速览数据
-const newSkuList = ref<GoodsItem[]>([])
-newSkuList.value = [
-  {
-    desc: '朱炳仁铜·猫型吉祥物装饰工艺摆件',
-    discount: 0.7,
-    id: '4001920',
-    name: '朱炳仁铜·猫型吉祥物装饰工艺摆件',
-    orderNum: 100,
-    picture: 'https://yanxuan-item.nosdn.127.net/6e38fc94a8fe72c9d139bc48ba6d9814.jpg',
-    price: 35.0,
-  },
-  {
-    desc: '朱炳仁·铜忠义千秋关公风水摆件',
-    discount: 0.7,
-    id: '4001877',
-    name: '朱炳仁·铜忠义千秋关公风水摆件',
-    orderNum: 100,
-    picture: 'https://yanxuan-item.nosdn.127.net/cd9060820a1a52f296fa2502e56a5872.jpg',
-    price: 35.0,
-  },
-  {
-    desc: '朱炳仁铜·猫型吉祥物装饰工艺摆件',
-    discount: 0.7,
-    id: '4001920',
-    name: '朱炳仁铜·猫型吉祥物装饰工艺摆件',
-    orderNum: 100,
-    picture: 'https://yanxuan-item.nosdn.127.net/6e38fc94a8fe72c9d139bc48ba6d9814.jpg',
-    price: 35.0,
-  },
-  {
-    desc: '朱炳仁·铜忠义千秋关公风水摆件',
-    discount: 0.7,
-    id: '4001877',
-    name: '朱炳仁·铜忠义千秋关公风水摆件',
-    orderNum: 100,
-    picture: 'https://yanxuan-item.nosdn.127.net/cd9060820a1a52f296fa2502e56a5872.jpg',
-    price: 35.0,
-  },
-]
+// 获取banner图数据 和 尾图数据
+const i_banner_image = ref('')
+const w_url_image = ref('')
+const getSwData = async () => {
+  const res = await getSwAPI()
+  if (res.result[0].imgType == 0) {
+    i_banner_image.value = res.result[0].pictureUrl
+    w_url_image.value = res.result[1].pictureUrl
+  } else {
+    i_banner_image.value = res.result[1].pictureUrl
+    w_url_image.value = res.result[0].pictureUrl
+  }
+}
 
 // 获取轮播图数据
 const bannerList = ref<BannerItem[]>([])
-
 const getHomeBannerData = async () => {
   const res = await getHomeBannerAPI()
   bannerList.value = res.result
-  console.log(res.result)
 }
 
-// 获取热门推荐数据
-const hotList = ref<HotItem[]>([])
-const getHomeHotData = async () => {
-  const res = await getHomeHotAPI()
-  hotList.value = res.result
+// 获取新品速览数据
+const newPageParams: Required<PageParams> = {
+  page: 1,
+  pageSize: 4,
+}
+const newSkuList = ref<GoodsItem[]>([])
+const getHomeGoodsNewData = async () => {
+  const res = await getHomeGoodsNewAPI(newPageParams)
+  newSkuList.value = res.result.items
 }
 
-// 是否正在加载中标记
-const isLoading = ref(false)
+// 获取精品推荐数据
+const jinpinPageParams: Required<PageParams> = {
+  page: 1,
+  pageSize: 4,
+}
+const jinpinList = ref<GoodsItem[]>([])
+const getHomeGoodsJinpinData = async () => {
+  const res = await getHomeGoodsJinpinAPI(jinpinPageParams)
+  jinpinList.value = res.result.items
+}
 
-onLoad(async () => {
-  isLoading.value = true
-  await Promise.all([getHomeBannerData(), getHomeHotData()])
-  isLoading.value = false
-})
+// 获取人气Top数据
+const topPageParams: Required<PageParams> = {
+  page: 1,
+  pageSize: 4,
+}
+const topList = ref<GoodsItem[]>([])
+const getHomeGoodsTopData = async () => {
+  const res = await getHomeGoodsTopAPI(topPageParams)
+  topList.value = res.result.items
+}
 
 // 猜你喜欢组合式函数
 const { guessRef, onScrolltolower } = useGuessList()
@@ -141,9 +135,23 @@ const onRefresherrefresh = async () => {
   isTriggered.value = true
   // 重置猜你喜欢组件数据
   guessRef.value?.resetData() // 加载数据
-  await Promise.all([getHomeBannerData(), getHomeHotData(), guessRef.value?.getMore()]) // 关闭动画
+  await Promise.all([getHomeBannerData(), guessRef.value?.getMore()]) // 关闭动画
   isTriggered.value = false
 }
+
+// 是否正在加载中标记
+const isLoading = ref(false)
+onLoad(async () => {
+  isLoading.value = true
+  await Promise.all([
+    getHomeBannerData(),
+    getSwData(),
+    getHomeGoodsNewData(),
+    getHomeGoodsJinpinData(),
+    getHomeGoodsTopData(),
+  ])
+  isLoading.value = false
+})
 </script>
 
 <template>
@@ -166,7 +174,7 @@ const onRefresherrefresh = async () => {
         <text class="boardCast-text">欢迎您光临米沙文创! 商品陆续上新中，敬请期待吧！</text>
       </view>
       <!-- i_banner -->
-      <image class="i-banner-image" src="@/static/images/i_banner.png"></image>
+      <image class="i-banner-image" :src="i_banner_image"></image>
       <!-- 分类点击 -->
       <Classify :list="classifyList" />
       <!-- 搜索框 -->
@@ -180,13 +188,13 @@ const onRefresherrefresh = async () => {
       <!-- 新品速览 -->
       <NewSku :list="newSkuList" />
       <!-- 精品推荐 -->
-      <RecSku :list="newSkuList" />
+      <RecSku :list="jinpinList" />
       <!-- 人气TOP热榜 -->
-      <TopSku :list="newSkuList" />
+      <TopSku :list="topList" />
       <!-- 猜你喜欢模块 -->
       <XtxGuess ref="guessRef" />
       <!-- 门店/服务/联系方式/售后/ -->
-      <Contact />
+      <Contact :w_url="w_url_image" />
     </template>
   </scroll-view>
 </template>

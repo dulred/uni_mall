@@ -9,8 +9,8 @@
  * Copyright (c) 2024 by ${git_name_email}, All Rights Reserved.
  */
 // 存放路径: src/services/home.ts
-import type { BannerItem, CategoryItem, HotItem, GuessItem } from '@/types/home'
-import type { PageResult, PageParams } from '@/types/global'
+import type { BannerItem, GuessItem, SWItem } from '@/types/home'
+import type { PageResult, PageParams, GoodsItem, SearchParams } from '@/types/global'
 import { http } from '@/utils/http'
 /**
  * 首页-广告区域-小程序
@@ -19,42 +19,85 @@ import { http } from '@/utils/http'
 export const getHomeBannerAPI = (distributionSite = 1) => {
   return http<BannerItem[]>({
     method: 'GET',
-    url: '/home/banner',
+    url: '/ntk/carousel',
     data: {
       distributionSite,
     },
   })
 }
 
-// services/home.ts
-/**
- * 首页-前台分类-小程序
+/*
+  获取首尾数据
  */
-export const getHomeCategoryAPI = () => {
-  return http<CategoryItem[]>({
+export const getSwAPI = () => {
+  return http<SWItem[]>({
     method: 'GET',
-    url: '/home/category/mutli',
-  })
-}
-
-// services/home.ts
-/**
- * 首页-热门推荐-小程序
- */
-export const getHomeHotAPI = () => {
-  return http<HotItem[]>({
-    method: 'GET',
-    url: '/home/hot/mutli',
+    url: '/ntk/sw/first_last_show',
   })
 }
 
 /**
- * 猜你喜欢-小程序
+ * 更多精选推荐-小程序
  */
 export const getHomeGoodsGuessLikeAPI = (data?: PageParams) => {
   return http<PageResult<GuessItem>>({
     method: 'GET',
-    url: '/home/goods/guessLike',
+    url: '/ntk/goods/guessLike',
+    data,
+  })
+}
+
+/**
+ * 新品速览-小程序
+ */
+export const getHomeGoodsNewAPI = (data?: PageParams) => {
+  return http<PageResult<GuessItem>>({
+    method: 'GET',
+    url: '/ntk/goods/new',
+    data,
+  })
+}
+
+/**
+ *  精品推荐-小程序
+ */
+export const getHomeGoodsJinpinAPI = (data?: PageParams) => {
+  return http<PageResult<GuessItem>>({
+    method: 'GET',
+    url: '/ntk/goods/jinpin',
+    data,
+  })
+}
+
+/**
+ * 人气top-小程序
+ */
+export const getHomeGoodsTopAPI = (data?: PageParams) => {
+  return http<PageResult<GuessItem>>({
+    method: 'GET',
+    url: '/ntk/goods/top',
+    data,
+  })
+}
+
+/**
+ * 同类推荐-小程序
+ */
+export const getHomeGoodsSimilarAPI = (data?: PageParams) => {
+  return http<PageResult<GuessItem>>({
+    method: 'GET',
+    url: '/ntk/goods/similar',
+    data,
+  })
+}
+
+/**
+ * 商品搜索
+ */
+export const getHomeGoodsSearchAPI = (data?: SearchParams) => {
+  return http<PageResult<GoodsItem>>({
+    method: 'POST',
+    url: '/ntk/goods/search',
     data,
   })
 }

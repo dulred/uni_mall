@@ -77,7 +77,7 @@ const subCategoryList = computed(() => {
               hover-class="none"
               :url="`/pages/goods/goods?id=${goods.id}`"
             >
-              <image class="image" :src="goods.picture"></image>
+              <image class="image" :src="goods.pictureUrl"></image>
               <view class="right">
                 <view class="name ellipsis">{{ goods.name }}</view>
                 <view class="r_bottom">
@@ -161,11 +161,12 @@ page {
   }
   .active {
     background-color: #fff;
+    color: #c3a769;
     &::before {
       content: '';
       position: absolute;
-      left: 0;
-      top: 0;
+      left: 0rpx;
+      top: 0rpx;
       width: 8rpx;
       height: 100%;
       background-color: #c3a769;

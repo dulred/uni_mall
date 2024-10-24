@@ -37,7 +37,7 @@ const hotList = ref(['天煞古董'])
         <input
           class="input"
           type="text"
-          placeholder="搜索订单"
+          placeholder="搜索商品"
           confirm-type="search"
           @confirm="onSearch"
           @input="onInput"

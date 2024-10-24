@@ -1,9 +1,12 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+defineProps<{
+  w_url: string
+}>()
+</script>
 
 <template>
   <view class="contact">
-    <image class="dingzhi" src="@/static/images/dingzhifuwu.png" mode="scaleToFill" />
-    <image class="shouhou" src="@/static/images/shouhouxuzhi.png" mode="scaleToFill" />
+    <image class="dingzhi" :src="w_url" mode="scaleToFill" />
   </view>
 </template>
 
@@ -12,12 +15,7 @@
   padding: 0 20px;
   .dingzhi {
     width: 100%;
-    height: 300rpx;
-    margin-bottom: 50rpx;
-  }
-  .shouhou {
-    width: 100%;
-    height: 600rpx;
+    height: 900rpx;
   }
 }
 </style>

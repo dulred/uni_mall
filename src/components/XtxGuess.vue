@@ -5,7 +5,7 @@ import type { GuessItem } from '@/types/home'
 import type { PageParams } from '@/types/global'
 // 分页参数
 const pageParams: Required<PageParams> = {
-  page: 35,
+  page: 1,
   pageSize: 10,
 }
 // 猜你喜欢数据列表
@@ -58,7 +58,7 @@ defineExpose({
       :key="item.id"
       :url="`/pages/goods/goods?id=${item.id}`"
     >
-      <image class="image" mode="aspectFill" :src="item.picture"></image>
+      <image class="image" mode="aspectFill" :src="item.pictureUrl"></image>
       <view class="right">
         <view class="name"> {{ item.name }} </view>
         <view class="price">

@@ -19,7 +19,7 @@ const subTitle = '雅物佳礼 满满心意'
         :key="item.id"
         :url="`/pages/goods/goods?id=${item.id}`"
       >
-        <image class="image" mode="aspectFill" :src="item.picture"></image>
+        <image class="image" mode="aspectFill" :src="item.pictureUrl"></image>
         <view class="right">
           <view class="name"> {{ item.name }} </view>
           <view class="price">

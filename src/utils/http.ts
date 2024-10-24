@@ -11,8 +11,9 @@
  */
 
 import { useMemberStore } from '@/stores'
-
-const baseURL = 'https://pcapi-xiaotuxian-front-devtest.itheima.net'
+const PRO_HTTPS = 'https://www.guagnximisa.top'
+const DEV_HTTPS = 'https://localhost'
+const baseURL = `${DEV_HTTPS}/api`
 
 // 添加拦截器
 const httpInterceptor = {
@@ -23,7 +24,7 @@ const httpInterceptor = {
       options.url = baseURL + options.url
     }
     // 2. 请求超时，默认60s
-    options.timeout = 10000
+    options.timeout = 30000
     // 3. 添加小程序端请求头标识
     options.header = {
       ...options.header,

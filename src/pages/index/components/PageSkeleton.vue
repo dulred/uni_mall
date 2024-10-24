@@ -1,9 +1,130 @@
+<!--
+此文件为开发者工具生成，生成时间: 2024/8/29下午6:02:35
+使用方法：
+在 D:\dulred\dev\source\wx_Mini_Program\uni_mall\dist\dev\mp-weixin\pages\index\index.wxml 引入模板
+
+```
+<import src="index.skeleton.wxml"/>
+<template is="skeleton" wx:if="{{loading}}" />
+```
+
+在 D:\dulred\dev\source\wx_Mini_Program\uni_mall\dist\dev\mp-weixin\pages\index\index.wxss 中引入样式
+```
+@import "./index.skeleton.wxss";
+```
+
+更多详细信息可以参考文档：https://developers.weixin.qq.com/miniprogram/dev/devtools/skeleton.html
+-->
 <template name="skeleton">
   <view class="sk-container">
-    <scroll-view refresher-enabled="true" scroll-y="true" class="scroll-view scroll-view">
+    <scroll-view
+      refresher-enabled="true"
+      scroll-y="true"
+      class="scroll-view scroll-view"
+      enable-back-to-top="true"
+    >
+      <view class="boardCast boardCast">
+        <image class="boardCast-image sk-image"></image>
+        <text class="boardCast-text sk-transparent sk-text-14-2857-65 sk-text"
+          >欢迎您光临米沙文创! 商品陆续上新中，敬请期待吧！</text
+        >
+      </view>
+      <image class="i-banner-image sk-image"></image>
+      <view is="pages/index/components/Classify">
+        <view class="classify Classify--classify">
+          <view class="item Classify--item">
+            <navigator class="class-cards Classify--class-cards" hover-class="none">
+              <image class="image Classify--image sk-image" mode="aspectFit"></image>
+              <text
+                class="sk-transparent sk-text-7-1429-5 sk-text"
+                style="background-position-x: 50%"
+                >米沙文创</text
+              >
+            </navigator>
+          </view>
+          <view class="item Classify--item">
+            <navigator class="class-cards Classify--class-cards" hover-class="none">
+              <image class="image Classify--image sk-image" mode="aspectFit"></image>
+              <text
+                class="sk-transparent sk-text-7-1429-312 sk-text"
+                style="background-position-x: 50%"
+                >书籍文房</text
+              >
+            </navigator>
+          </view>
+          <view class="item Classify--item">
+            <navigator class="class-cards Classify--class-cards" hover-class="none">
+              <image class="image Classify--image sk-image" mode="aspectFit"></image>
+              <text
+                class="sk-transparent sk-text-7-1429-629 sk-text"
+                style="background-position-x: 50%"
+                >教育益智</text
+              >
+            </navigator>
+          </view>
+          <view class="item Classify--item">
+            <navigator class="class-cards Classify--class-cards" hover-class="none">
+              <image class="image Classify--image sk-image" mode="aspectFit"></image>
+              <text
+                class="sk-transparent sk-text-7-1429-324 sk-text"
+                style="background-position-x: 50%"
+                >休闲小食</text
+              >
+            </navigator>
+          </view>
+          <view class="item Classify--item">
+            <navigator class="class-cards Classify--class-cards" hover-class="none">
+              <image class="image Classify--image sk-image" mode="aspectFit"></image>
+              <text
+                class="sk-transparent sk-text-7-1429-482 sk-text"
+                style="background-position-x: 50%"
+                >日用家居</text
+              >
+            </navigator>
+          </view>
+          <view class="item Classify--item">
+            <navigator class="class-cards Classify--class-cards" hover-class="none">
+              <image class="image Classify--image sk-image" mode="aspectFit"></image>
+              <text
+                class="sk-transparent sk-text-7-1429-955 sk-text"
+                style="background-position-x: 50%"
+                >杯具茶饮</text
+              >
+            </navigator>
+          </view>
+          <view class="item Classify--item">
+            <navigator class="class-cards Classify--class-cards" hover-class="none">
+              <image class="image Classify--image sk-image" mode="aspectFit"></image>
+              <text
+                class="sk-transparent sk-text-7-1429-2 sk-text"
+                style="background-position-x: 50%"
+                >ip系列</text
+              >
+            </navigator>
+          </view>
+          <view class="item Classify--item">
+            <navigator class="class-cards Classify--class-cards" hover-class="none">
+              <image class="image Classify--image sk-image" mode="aspectFit"></image>
+              <text
+                class="sk-transparent sk-text-7-1429-386 sk-text"
+                style="background-position-x: 50%"
+                >文物周边</text
+              >
+            </navigator>
+          </view>
+        </view>
+      </view>
+      <navigator class="search search">
+        <view class="input input">
+          <text
+            class="icon-sousuo sk-transparent sk-text-14-2857-520 sk-text sk-pseudo sk-pseudo-circle"
+            >搜索商品</text
+          >
+        </view>
+      </navigator>
       <view is="components/XtxSwiper">
         <view class="carousel XtxSwiper--carousel">
-          <swiper :circular="true" :interval="3000" :current="0" :autoplay="false">
+          <swiper circular="true" interval="3000" current="0" autoplay="false">
             <swiper-item
               style="
                 position: absolute;
@@ -17,170 +138,34 @@
               </navigator>
             </swiper-item>
           </swiper>
-          <view class="indicator XtxSwiper--indicator">
-            <text class="dot XtxSwiper--dot active XtxSwiper--active"></text>
-            <text class="dot XtxSwiper--dot"></text>
-            <text class="dot XtxSwiper--dot"></text>
-            <text class="dot XtxSwiper--dot"></text>
-            <text class="dot XtxSwiper--dot"></text>
-          </view>
-        </view>
-      </view>
-      <view is="pages/index/components/CategoryPanel">
-        <view class="category CategoryPanel--category">
-          <navigator class="category-item CategoryPanel--category-item" hover-class="none">
-            <image class="icon CategoryPanel--icon sk-image" mode="scaleToFill"></image>
-            <text class="text CategoryPanel--text sk-transparent sk-text-14-2857-823 sk-text"
-              >居家</text
-            >
-          </navigator>
-          <navigator class="category-item CategoryPanel--category-item" hover-class="none">
-            <image class="icon CategoryPanel--icon sk-image" mode="scaleToFill"></image>
-            <text class="text CategoryPanel--text sk-transparent sk-text-14-2857-970 sk-text"
-              >锦鲤</text
-            >
-          </navigator>
-          <navigator class="category-item CategoryPanel--category-item" hover-class="none">
-            <image class="icon CategoryPanel--icon sk-image" mode="scaleToFill"></image>
-            <text class="text CategoryPanel--text sk-transparent sk-text-14-2857-881 sk-text"
-              >服饰</text
-            >
-          </navigator>
-          <navigator class="category-item CategoryPanel--category-item" hover-class="none">
-            <image class="icon CategoryPanel--icon sk-image" mode="scaleToFill"></image>
-            <text class="text CategoryPanel--text sk-transparent sk-text-14-2857-716 sk-text"
-              >母婴</text
-            >
-          </navigator>
-          <navigator class="category-item CategoryPanel--category-item" hover-class="none">
-            <image class="icon CategoryPanel--icon sk-image" mode="scaleToFill"></image>
-            <text class="text CategoryPanel--text sk-transparent sk-text-14-2857-937 sk-text"
-              >个护</text
-            >
-          </navigator>
-          <navigator class="category-item CategoryPanel--category-item" hover-class="none">
-            <image class="icon CategoryPanel--icon sk-image" mode="scaleToFill"></image>
-            <text class="text CategoryPanel--text sk-transparent sk-text-14-2857-937 sk-text"
-              >严选</text
-            >
-          </navigator>
-          <navigator class="category-item CategoryPanel--category-item" hover-class="none">
-            <image class="icon CategoryPanel--icon sk-image" mode="scaleToFill"></image>
-            <text class="text CategoryPanel--text sk-transparent sk-text-14-2857-478 sk-text"
-              >数码</text
-            >
-          </navigator>
-          <navigator class="category-item CategoryPanel--category-item" hover-class="none">
-            <image class="icon CategoryPanel--icon sk-image" mode="scaleToFill"></image>
-            <text class="text CategoryPanel--text sk-transparent sk-text-14-2857-234 sk-text"
-              >运动</text
-            >
-          </navigator>
-          <navigator class="category-item CategoryPanel--category-item" hover-class="none">
-            <image class="icon CategoryPanel--icon sk-image" mode="scaleToFill"></image>
-            <text class="text CategoryPanel--text sk-transparent sk-text-14-2857-240 sk-text"
-              >杂项</text
-            >
-          </navigator>
-          <navigator class="category-item CategoryPanel--category-item" hover-class="none">
-            <image class="icon CategoryPanel--icon sk-image" mode="scaleToFill"></image>
-            <text class="text CategoryPanel--text sk-transparent sk-text-14-2857-399 sk-text"
-              >品牌</text
-            >
-          </navigator>
-        </view>
-      </view>
-      <view is="pages/index/components/HotPanel">
-        <view class="panel HotPanel--panel hot HotPanel--hot">
-          <view class="item HotPanel--item">
-            <view class="title HotPanel--title">
-              <text
-                class="title-text HotPanel--title-text sk-transparent sk-text-14-2857-723 sk-text"
-                >特惠推荐</text
-              >
-              <text
-                class="title-desc HotPanel--title-desc sk-transparent sk-text-14-2857-15 sk-text"
-                >精选全攻略</text
-              >
-            </view>
-            <navigator class="cards HotPanel--cards" hover-class="none">
-              <image class="image HotPanel--image sk-image" mode="aspectFit"></image>
-              <image class="image HotPanel--image sk-image" mode="aspectFit"></image>
-            </navigator>
-          </view>
-          <view class="item HotPanel--item">
-            <view class="title HotPanel--title">
-              <text
-                class="title-text HotPanel--title-text sk-transparent sk-text-14-2857-571 sk-text"
-                >爆款推荐</text
-              >
-              <text
-                class="title-desc HotPanel--title-desc sk-transparent sk-text-14-2857-359 sk-text"
-                >最受欢迎</text
-              >
-            </view>
-            <navigator class="cards HotPanel--cards" hover-class="none">
-              <image class="image HotPanel--image sk-image" mode="aspectFit"></image>
-              <image class="image HotPanel--image sk-image" mode="aspectFit"></image>
-            </navigator>
-          </view>
-          <view class="item HotPanel--item">
-            <view class="title HotPanel--title">
-              <text
-                class="title-text HotPanel--title-text sk-transparent sk-text-14-2857-752 sk-text"
-                >一站买全</text
-              >
-              <text
-                class="title-desc HotPanel--title-desc sk-transparent sk-text-14-2857-506 sk-text"
-                >精心优选</text
-              >
-            </view>
-            <navigator class="cards HotPanel--cards" hover-class="none">
-              <image class="image HotPanel--image sk-image" mode="aspectFit"></image>
-              <image class="image HotPanel--image sk-image" mode="aspectFit"></image>
-            </navigator>
-          </view>
-          <view class="item HotPanel--item">
-            <view class="title HotPanel--title">
-              <text
-                class="title-text HotPanel--title-text sk-transparent sk-text-14-2857-419 sk-text"
-                >新鲜好物</text
-              >
-              <text
-                class="title-desc HotPanel--title-desc sk-transparent sk-text-14-2857-408 sk-text"
-                >生活加分项</text
-              >
-            </view>
-            <navigator class="cards HotPanel--cards" hover-class="none">
-              <image class="image HotPanel--image sk-image" mode="aspectFit"></image>
-              <image class="image HotPanel--image sk-image" mode="aspectFit"></image>
-            </navigator>
-          </view>
-        </view>
-      </view>
-      <view is="components/XtxGuess" class="r r">
-        <view class="caption XtxGuess--caption">
-          <text
-            class="text XtxGuess--text sk-transparent sk-text-0-0000-719 sk-text sk-pseudo sk-pseudo-circle"
-            >猜你喜欢</text
-          >
         </view>
       </view>
     </scroll-view>
   </view>
 </template>
-<style lang="scss">
+
+<style>
+/*
+此文件为开发者工具生成，生成时间: 2024/8/29下午6:02:35
+
+在 D:\dulred\dev\source\wx_Mini_Program\uni_mall\dist\dev\mp-weixin\pages\index\index.wxss 中引入样式
+```
+@import "./index.skeleton.wxss";
+```
+
+更多详细信息可以参考文档：https://developers.weixin.qq.com/miniprogram/dev/devtools/skeleton.html
+*/
 .sk-transparent {
   color: transparent !important;
 }
-.sk-text-6-2500-450 {
+.sk-text-14-2857-65 {
   background-image: linear-gradient(
-    transparent 6.25%,
+    transparent 14.2857%,
     #eeeeee 0%,
-    #eeeeee 93.75%,
+    #eeeeee 85.7143%,
     transparent 0%
   ) !important;
-  background-size: 100% 27.907rpx;
+  background-size: 100% 33.6rpx;
   position: relative !important;
 }
 .sk-text {
@@ -190,194 +175,94 @@
   color: transparent !important;
   background-repeat: repeat-y !important;
 }
-.sk-text-14-2857-595 {
+.sk-text-7-1429-5 {
+  background-image: linear-gradient(
+    transparent 7.1429%,
+    #eeeeee 0%,
+    #eeeeee 92.8571%,
+    transparent 0%
+  ) !important;
+  background-size: 100% 28rpx;
+  position: relative !important;
+}
+.sk-text-7-1429-312 {
+  background-image: linear-gradient(
+    transparent 7.1429%,
+    #eeeeee 0%,
+    #eeeeee 92.8571%,
+    transparent 0%
+  ) !important;
+  background-size: 100% 28rpx;
+  position: relative !important;
+}
+.sk-text-7-1429-629 {
+  background-image: linear-gradient(
+    transparent 7.1429%,
+    #eeeeee 0%,
+    #eeeeee 92.8571%,
+    transparent 0%
+  ) !important;
+  background-size: 100% 28rpx;
+  position: relative !important;
+}
+.sk-text-7-1429-324 {
+  background-image: linear-gradient(
+    transparent 7.1429%,
+    #eeeeee 0%,
+    #eeeeee 92.8571%,
+    transparent 0%
+  ) !important;
+  background-size: 100% 28rpx;
+  position: relative !important;
+}
+.sk-text-7-1429-482 {
+  background-image: linear-gradient(
+    transparent 7.1429%,
+    #eeeeee 0%,
+    #eeeeee 92.8571%,
+    transparent 0%
+  ) !important;
+  background-size: 100% 28rpx;
+  position: relative !important;
+}
+.sk-text-7-1429-955 {
+  background-image: linear-gradient(
+    transparent 7.1429%,
+    #eeeeee 0%,
+    #eeeeee 92.8571%,
+    transparent 0%
+  ) !important;
+  background-size: 100% 28rpx;
+  position: relative !important;
+}
+.sk-text-7-1429-2 {
+  background-image: linear-gradient(
+    transparent 7.1429%,
+    #eeeeee 0%,
+    #eeeeee 92.8571%,
+    transparent 0%
+  ) !important;
+  background-size: 100% 28rpx;
+  position: relative !important;
+}
+.sk-text-7-1429-386 {
+  background-image: linear-gradient(
+    transparent 7.1429%,
+    #eeeeee 0%,
+    #eeeeee 92.8571%,
+    transparent 0%
+  ) !important;
+  background-size: 100% 28rpx;
+  position: relative !important;
+}
+.sk-text-14-2857-520 {
   background-image: linear-gradient(
     transparent 14.2857%,
     #eeeeee 0%,
     #eeeeee 85.7143%,
     transparent 0%
   ) !important;
-  background-size: 100% 39.0698rpx;
-  position: relative !important;
-}
-.sk-text-14-2857-823 {
-  background-image: linear-gradient(
-    transparent 14.2857%,
-    #eeeeee 0%,
-    #eeeeee 85.7143%,
-    transparent 0%
-  ) !important;
-  background-size: 100% 34.186rpx;
-  position: relative !important;
-}
-.sk-text-14-2857-970 {
-  background-image: linear-gradient(
-    transparent 14.2857%,
-    #eeeeee 0%,
-    #eeeeee 85.7143%,
-    transparent 0%
-  ) !important;
-  background-size: 100% 34.186rpx;
-  position: relative !important;
-}
-.sk-text-14-2857-881 {
-  background-image: linear-gradient(
-    transparent 14.2857%,
-    #eeeeee 0%,
-    #eeeeee 85.7143%,
-    transparent 0%
-  ) !important;
-  background-size: 100% 34.186rpx;
-  position: relative !important;
-}
-.sk-text-14-2857-716 {
-  background-image: linear-gradient(
-    transparent 14.2857%,
-    #eeeeee 0%,
-    #eeeeee 85.7143%,
-    transparent 0%
-  ) !important;
-  background-size: 100% 34.186rpx;
-  position: relative !important;
-}
-.sk-text-14-2857-937 {
-  background-image: linear-gradient(
-    transparent 14.2857%,
-    #eeeeee 0%,
-    #eeeeee 85.7143%,
-    transparent 0%
-  ) !important;
-  background-size: 100% 34.186rpx;
-  position: relative !important;
-}
-.sk-text-14-2857-478 {
-  background-image: linear-gradient(
-    transparent 14.2857%,
-    #eeeeee 0%,
-    #eeeeee 85.7143%,
-    transparent 0%
-  ) !important;
-  background-size: 100% 34.186rpx;
-  position: relative !important;
-}
-.sk-text-14-2857-234 {
-  background-image: linear-gradient(
-    transparent 14.2857%,
-    #eeeeee 0%,
-    #eeeeee 85.7143%,
-    transparent 0%
-  ) !important;
-  background-size: 100% 34.186rpx;
-  position: relative !important;
-}
-.sk-text-14-2857-240 {
-  background-image: linear-gradient(
-    transparent 14.2857%,
-    #eeeeee 0%,
-    #eeeeee 85.7143%,
-    transparent 0%
-  ) !important;
-  background-size: 100% 34.186rpx;
-  position: relative !important;
-}
-.sk-text-14-2857-399 {
-  background-image: linear-gradient(
-    transparent 14.2857%,
-    #eeeeee 0%,
-    #eeeeee 85.7143%,
-    transparent 0%
-  ) !important;
-  background-size: 100% 34.186rpx;
-  position: relative !important;
-}
-.sk-text-14-2857-723 {
-  background-image: linear-gradient(
-    transparent 14.2857%,
-    #eeeeee 0%,
-    #eeeeee 85.7143%,
-    transparent 0%
-  ) !important;
-  background-size: 100% 43.9535rpx;
-  position: relative !important;
-}
-.sk-text-14-2857-15 {
-  background-image: linear-gradient(
-    transparent 14.2857%,
-    #eeeeee 0%,
-    #eeeeee 85.7143%,
-    transparent 0%
-  ) !important;
-  background-size: 100% 31.7442rpx;
-  position: relative !important;
-}
-.sk-text-14-2857-571 {
-  background-image: linear-gradient(
-    transparent 14.2857%,
-    #eeeeee 0%,
-    #eeeeee 85.7143%,
-    transparent 0%
-  ) !important;
-  background-size: 100% 43.9535rpx;
-  position: relative !important;
-}
-.sk-text-14-2857-359 {
-  background-image: linear-gradient(
-    transparent 14.2857%,
-    #eeeeee 0%,
-    #eeeeee 85.7143%,
-    transparent 0%
-  ) !important;
-  background-size: 100% 31.7442rpx;
-  position: relative !important;
-}
-.sk-text-14-2857-752 {
-  background-image: linear-gradient(
-    transparent 14.2857%,
-    #eeeeee 0%,
-    #eeeeee 85.7143%,
-    transparent 0%
-  ) !important;
-  background-size: 100% 43.9535rpx;
-  position: relative !important;
-}
-.sk-text-14-2857-506 {
-  background-image: linear-gradient(
-    transparent 14.2857%,
-    #eeeeee 0%,
-    #eeeeee 85.7143%,
-    transparent 0%
-  ) !important;
-  background-size: 100% 31.7442rpx;
-  position: relative !important;
-}
-.sk-text-14-2857-419 {
-  background-image: linear-gradient(
-    transparent 14.2857%,
-    #eeeeee 0%,
-    #eeeeee 85.7143%,
-    transparent 0%
-  ) !important;
-  background-size: 100% 43.9535rpx;
-  position: relative !important;
-}
-.sk-text-14-2857-408 {
-  background-image: linear-gradient(
-    transparent 14.2857%,
-    #eeeeee 0%,
-    #eeeeee 85.7143%,
-    transparent 0%
-  ) !important;
-  background-size: 100% 31.7442rpx;
-  position: relative !important;
-}
-.sk-text-0-0000-719 {
-  background-image: linear-gradient(
-    transparent 0%,
-    #eeeeee 0%,
-    #eeeeee 100%,
-    transparent 0%
-  ) !important;
-  background-size: 100% 31.3953rpx;
+  background-size: 100% 39.2rpx;
   position: relative !important;
 }
 .sk-image {

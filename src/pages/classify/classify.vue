@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import XtxGuess from '@/components/XtxGuess.vue'
-import { ref } from 'vue'
+import { getHomeGoodsGuessLikeAPI, getHomeGoodsSearchAPI } from '@/services/home'
+import type { GoodsItem, PageParams, SearchParams } from '@/types/global'
+import { onMounted, ref } from 'vue'
 //获取页面参数
 const query = defineProps<{
   val: string
@@ -15,6 +17,26 @@ const onTap = (val: number) => {
   }
 }
 const isUp = ref(true)
+
+// 分页参数
+const searchParams: Required<SearchParams> = {
+  page: 1,
+  pageSize: 6,
+  val: query.val,
+}
+// 猜你喜欢数据列表
+const goodsList = ref<GoodsItem[]>([])
+
+// 获取猜你喜欢数据
+const getHomeGoodsSearchData = async () => {
+  const res = await getHomeGoodsSearchAPI(searchParams)
+  // 数组追加
+  goodsList.value = res.result.items
+}
+// 组件挂载完毕
+onMounted(() => {
+  getHomeGoodsSearchData()
+})
 </script>
 
 <template>
@@ -49,6 +71,25 @@ const isUp = ref(true)
       <text class="text">上新</text>
     </view>
   </view>
+  <scroll-view class="scroll-view" scroll-y>
+    <view class="goods">
+      <navigator
+        class="guess-item"
+        v-for="item in goodsList"
+        :key="item.id"
+        :url="`/pages/goods/goods?id=${item.id}`"
+      >
+        <image class="image" mode="aspectFill" :src="item.pictureUrl"></image>
+        <view class="right">
+          <view class="name"> {{ item.name }} </view>
+          <view class="price">
+            <text class="small">¥</text>
+            <text>{{ item.price }} </text>
+          </view>
+        </view>
+      </navigator>
+    </view>
+  </scroll-view>
   <!-- 数据组件展示 -->
   <text class="cc">
     {{ true ? '没有更多数据~' : '请等待数据加载' }}
@@ -58,6 +99,16 @@ const isUp = ref(true)
 </template>
 
 <style lang="scss" scoped>
+page {
+  background-color: #f7f7f7;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.scroll-view {
+  flex: 1;
+}
+
 .search {
   padding: 0 30rpx 20rpx;
   background-color: #fff;
@@ -124,10 +175,11 @@ const isUp = ref(true)
 }
 .icon-up:before {
   font-size: 17rpx;
+  color: #0c0b26;
 }
 
 .icon-up.isUp::before {
-  color: red;
+  color: #c3a769;
 }
 .cc {
   text-align: center;
@@ -135,5 +187,52 @@ const isUp = ref(true)
   color: #666;
   padding: 20rpx 0;
   display: block;
+}
+
+/* 商品数据 */
+.goods {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 0 20rpx;
+  .guess-item {
+    border-radius: 20rpx;
+    width: 345rpx;
+    padding: 24rpx 20rpx 20rpx;
+    margin-bottom: 20rpx;
+    overflow: hidden;
+    background-color: #fff;
+  }
+  .image {
+    width: 304rpx;
+    height: 304rpx;
+    border-radius: 20rpx;
+  }
+  .right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .name {
+      width: 100%;
+      margin: 10rpx 0;
+      color: #0c0b26;
+      font-size: 26rpx;
+      text-align: center;
+      line-height: 28rpx;
+      white-space: nowrap; /* 强制文本在一行显示 */
+      overflow: hidden; /* 隐藏超出容器范围的文本 */
+      text-overflow: ellipsis; /* 使用省略号代替被隐藏的文本 */
+    }
+    .price {
+      line-height: 1;
+      padding-top: 4rpx;
+      color: #c3a769;
+      font-size: 26rpx;
+    }
+    .small {
+      font-size: 26rpx;
+    }
+  }
 }
 </style>

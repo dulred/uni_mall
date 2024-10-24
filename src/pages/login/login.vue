@@ -11,11 +11,22 @@ onLoad(async () => {
   code = res.code
 })
 
+function generateRandomPhoneNumber(): string {
+  const prefix = '13' // 手机号的前缀，例如"13"
+  const suffix = Math.floor(Math.random() * 1000000000) // 生成9位随机数
+    .toString()
+    .padStart(9, '0') // 确保生成的数字长度为9位，不足则前面补0
+  return prefix + suffix
+}
+
 // 获取用户手机号码（企业中写法）
 const onGetphonenumber: UniHelper.ButtonOnGetphonenumber = async (ev) => {
-  const encryptedData = ev.detail.encryptedData!
-  const iv = ev.detail.iv!
-  const res = await postLoginWxMinAPI({ code, encryptedData, iv })
+  // const encryptedData = ev.detail.encryptedData!
+  // const iv = ev.detail.iv!
+  // const res = await postLoginWxMinAPI({ code, encryptedData, iv })
+  // loginSuccess(res.result)
+  const randomPhoneNumber = generateRandomPhoneNumber()
+  const res = await postLoginWxMinSimpleAPI(randomPhoneNumber)
   loginSuccess(res.result)
 }
 
@@ -50,7 +61,11 @@ const loginSuccess = (profile: LoginResult) => {
       <!-- <button class="button phone">登录</button> -->
 
       <!-- 小程序端授权登录 -->
-      <button class="button phone" open-type="getPhoneNumber" @getphonenumber="onGetphonenumber">
+      <!-- <button class="button phone"  open-type="getPhoneNumber" @getphonenumber="onGetphonenumber">
+        <text class="icon icon-phone"></text>
+        手机号快捷登录
+      </button> -->
+      <button class="button phone" @tap="onGetphonenumber">
         <text class="icon icon-phone"></text>
         手机号快捷登录
       </button>

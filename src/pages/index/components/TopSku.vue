@@ -18,7 +18,7 @@ const subTitle = '门店热销榜单'
       :key="item.id"
       :url="`/pages/goods/goods?id=${item.id}`"
     >
-      <image class="image" mode="aspectFill" :src="item.picture"></image>
+      <image class="image" mode="aspectFill" :src="item.pictureUrl"></image>
       <view class="right">
         <view class="name"> {{ item.name }} </view>
         <view class="r_bottom">

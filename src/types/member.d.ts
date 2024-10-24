@@ -4,8 +4,6 @@ type BaseProfile = {
   id: number
   /** 头像  */
   avatar: string
-  /** 账户名  */
-  account: string
   /** 昵称 */
   nickname?: string
 }
@@ -16,8 +14,6 @@ export type LoginResult = BaseProfile & {
   id: number
   /** 头像  */
   avatar: string
-  /** 账户名  */
-  account: string
   /** 昵称 */
   nickname?: string
   /** 手机号 */

@@ -2,12 +2,7 @@
 import { computed, ref } from 'vue'
 import type { OrderPreResult } from '@/types/order'
 import { onLoad } from '@dcloudio/uni-app'
-import {
-  getMemberOrderPreAPI,
-  getMemberOrderPreNowAPI,
-  postMemberOrderAPI,
-  getMemberOrderRepurchaseByIdAPI,
-} from '@/services/order'
+import { getMemberOrderPreAPI, postMemberOrderAPI } from '@/services/order'
 import { useAddressStore } from '@/stores/modules/address'
 // 获取屏幕边界到安全区域距离
 const { safeAreaInsets } = uni.getSystemInfoSync()
@@ -41,18 +36,18 @@ const getMemberOrderPreData = async () => {
   // 是否有立即购买参数
   if (query.count && query.skuId) {
     // 调用立即购买 API
-    const res = await getMemberOrderPreNowAPI({
+    const res = await getMemberOrderPreAPI({
       count: query.count,
       skuId: query.skuId,
     })
     orderPre.value = res.result
   } else if (query.orderId) {
     // 再次购买
-    const res = await getMemberOrderRepurchaseByIdAPI(query.orderId)
+    const res = await getMemberOrderPreAPI({ orderId: query.orderId })
     orderPre.value = res.result
   } else {
     // 调用预付订单 API
-    const res = await getMemberOrderPreAPI()
+    const res = await getMemberOrderPreAPI({})
     orderPre.value = res.result
   }
 }
@@ -156,11 +151,11 @@ const onOrderSubmit = async () => {
     <view class="settlement">
       <view class="item">
         <text class="text">商品总价: </text>
-        <text class="number symbol">{{ orderPre?.summary.totalPrice.toFixed(2) }}</text>
+        <text class="number symbol">{{ orderPre?.summary.totalPrice }}</text>
       </view>
       <view class="item">
         <text class="text">运费: </text>
-        <text class="number symbol">{{ orderPre?.summary.postFee.toFixed(2) }}</text>
+        <text class="number symbol">{{ orderPre?.summary.postFee }}</text>
       </view>
     </view>
   </scroll-view>
@@ -168,7 +163,7 @@ const onOrderSubmit = async () => {
   <!-- 吸底工具栏 -->
   <view class="toolbar" :style="{ paddingBottom: safeAreaInsets?.bottom + 'px' }">
     <view class="total-pay symbol">
-      <text class="number">{{ orderPre?.summary.totalPayPrice.toFixed(2) }}</text>
+      <text class="number">{{ orderPre?.summary.totalPayPrice }}</text>
     </view>
     <view class="button" :class="{ disabled: !selecteAddress?.id }" @tap="onOrderSubmit">
       提交订单

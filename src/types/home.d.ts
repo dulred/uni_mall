@@ -11,14 +11,10 @@
 /** 首页-广告区域数据类型 */
 import type { GoodsItem } from './global'
 export type BannerItem = {
-  /** 跳转链接 */
-  hrefUrl: string
-  /** id */
-  id: string
+  /** 跳转的商品id */
+  goodsId: string
   /** 图片链接 */
-  imgUrl: string
-  /** 跳转类型 */
-  type: number
+  pictureUrl: string
 }
 
 // /** 首页-前台类目数据类型 */
@@ -60,4 +56,12 @@ export type ClassifyItem = {
   src: string
   /** 标题 */
   title: string
+}
+
+/* 首页-首尾图片 */
+export type SWItem = {
+  /** 图片路径 */
+  pictureUrl: string
+  /** 图片类型  0 首图 1 尾图 */
+  imgType: number
 }

@@ -1,22 +1,31 @@
 <script setup lang="ts">
 import { OrderState } from '@/services/constants'
 import { orderStateList } from '@/services/constants'
-import { getMemberOrderAPI } from '@/services/order'
+import { deleteMemberOrderAPI, getHomeOrdersSearchAPI, getMemberOrderAPI } from '@/services/order'
 import type { OrderItem } from '@/types/order'
 import type { OrderListParams } from '@/types/order'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { getPayMockAPI, getPayWxPayMiniPayAPI } from '@/services/pay'
-
+import { putMemberOrderReceiptByIdAPI } from '@/services/order'
+import type { SearchParams } from '@/types/global'
 // 定义 porps
 const props = defineProps<{
   orderState: number
+  val: string
 }>()
 
 // 请求参数
-const queryParams: OrderListParams = {
+let queryParams: OrderListParams = {
   page: 1,
   pageSize: 5,
   orderState: props.orderState,
+}
+
+// 分页参数
+const searchParams: Required<SearchParams> = {
+  page: 1,
+  pageSize: 6,
+  val: props.val,
 }
 
 // 获取订单列表
@@ -26,27 +35,74 @@ const getMemberOrderData = async () => {
   orderList.value = res.result.items
 }
 
+// 获取猜你喜欢数据
+const getHomeOrdersSearchData = async () => {
+  const res = await getHomeOrdersSearchAPI(searchParams)
+  // 数组追加
+  orderList.value = res.result.items
+}
+
 onMounted(() => {
-  getMemberOrderData()
+  if (props.orderState == -100) {
+    getHomeOrdersSearchData()
+  } else {
+    getMemberOrderData()
+  }
 })
+
+// 监听 orderState 的变化
+watch(
+  () => props.orderState,
+  async (newVal) => {
+    // 在这里调用 API，根据 newVal (即 activeIndex) 更新数据
+    try {
+      queryParams.orderState = newVal
+      getMemberOrderData()
+    } catch (error) {
+      console.error('API 调用失败:', error)
+    }
+  },
+  { immediate: true }, // 组件创建时立即调用
+)
 
 // 订单支付
 const onOrderPay = async (id: string) => {
   // 通过环境变量区分开发环境
-  if (import.meta.env.DEV) {
-    // 开发环境：模拟支付，修改订单状态为已支付
-    await getPayMockAPI({ orderId: id })
-  } else {
-    // 生产环境：获取支付参数 + 发起微信支付
-    const res = await getPayWxPayMiniPayAPI({ orderId: id })
-    await wx.requestPayment(res.result)
-  }
-
+  await getPayMockAPI({ orderId: id })
   //成功提示
   uni.showToast({ title: '支付成功' })
   //更新订单状态
   const order = orderList.value.find((v) => v.id === id)
   order!.orderState = OrderState.DaiFaHuo
+}
+
+// 确认收货
+const onOrderConfirm = (id: string) => {
+  // 二次确认弹窗
+  uni.showModal({
+    content: '为保障您的权益，请收到货并确认无误后，再确认收货',
+    success: async (success) => {
+      if (success.confirm) {
+        await putMemberOrderReceiptByIdAPI(id)
+        // 更新订单状态
+        getMemberOrderData()
+      }
+    },
+  })
+}
+
+//删除订单
+const onOrderDelete = (id: string) => {
+  //二次确认
+  uni.showModal({
+    content: '是否删除订单',
+    success: async (success) => {
+      if (success.confirm) {
+        await deleteMemberOrderAPI({ ids: [id] })
+        uni.redirectTo({ url: '/pagesOrder/list/list' })
+      }
+    },
+  })
 }
 </script>
 
@@ -59,7 +115,11 @@ const onOrderPay = async (id: string) => {
         <!-- 订单状态文字 -->
         <text>{{ orderStateList[order.orderState].text }}</text>
         <!-- 待评价/已完成/已取消 状态: 展示删除订单 -->
-        <text v-if="order.orderState >= OrderState.DaiPingJia" class="icon-delete"></text>
+        <text
+          v-if="order.orderState >= OrderState.DaiPingJia"
+          class="icon-delete"
+          @tap="onOrderDelete(order.id)"
+        ></text>
       </view>
       <!-- 商品信息，点击商品跳转到订单详情，不是商品详情 -->
       <navigator
@@ -92,13 +152,16 @@ const onOrderPay = async (id: string) => {
         <template v-else>
           <navigator
             class="button secondary"
-            :url="`/pagesOrder/create/create?orderId=id`"
+            :url="`/pagesOrder/create/create?orderId=${order.id}`"
             hover-class="none"
           >
             再次购买
           </navigator>
           <!-- 待收货状态: 展示确认收货 -->
-          <view v-if="order.orderState === OrderState.DaiShouHuo" class="button primary"
+          <view
+            v-if="order.orderState === OrderState.DaiShouHuo"
+            class="button primary"
+            @tap="onOrderConfirm(order.id)"
             >确认收货</view
           >
         </template>
@@ -108,6 +171,8 @@ const onOrderPay = async (id: string) => {
     <view class="loading-text">
       {{ true ? '没有更多数据~' : '正在加载...' }}
     </view>
+    <!-- 猜你喜欢模块 -->
+    <XtxGuess />
   </scroll-view>
 </template>
 
@@ -124,7 +189,8 @@ page {
   background-color: #fff;
 }
 .orders {
-  height: auto;
+  position: relative;
+  height: 100%;
 }
 
 // tabs

@@ -7,7 +7,7 @@ import { http } from '@/utils/http'
 export const postMemberCartAPI = (data: { skuId: string; count: number }) => {
   return http({
     method: 'POST',
-    url: '/member/cart',
+    url: '/cartItem',
     data,
   })
 }
@@ -18,7 +18,7 @@ export const postMemberCartAPI = (data: { skuId: string; count: number }) => {
 export const getMemberCartAPI = () => {
   return http<CartItem[]>({
     method: 'GET',
-    url: '/member/cart',
+    url: '/cartItem',
   })
 }
 
@@ -29,7 +29,7 @@ export const getMemberCartAPI = () => {
 export const deleteMemberCartAPI = (data: { ids: string[] }) => {
   return http({
     method: 'DELETE',
-    url: '/member/cart',
+    url: '/cartItem',
     data,
   })
 }
@@ -45,7 +45,7 @@ export const putMemberCartBySkuIdAPI = (
 ) => {
   return http({
     method: 'PUT',
-    url: `/member/cart/${skuId}`,
+    url: `/cartItem/${skuId}`,
     data,
   })
 }
@@ -57,7 +57,7 @@ export const putMemberCartBySkuIdAPI = (
 export const putMemberCartSelectedAPI = (data: { selected: boolean }) => {
   return http({
     method: 'PUT',
-    url: '/member/cart/selected',
+    url: '/cartItem/selected',
     data,
   })
 }

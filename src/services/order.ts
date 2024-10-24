@@ -1,3 +1,4 @@
+import type { PageResult, SearchParams } from '@/types/global'
 import type {
   OrderPreResult,
   OrderCreateParams,
@@ -10,28 +11,17 @@ import { http } from '@/utils/http'
 /**
  * 填写订单-获取预付订单
  */
-export const getMemberOrderPreAPI = () => {
-  return http<OrderPreResult>({
-    method: 'GET',
-    url: '/member/order/pre',
-  })
-}
-
-/**
- * 填写订单-获取立即购买订单
- */
-export const getMemberOrderPreNowAPI = (data: {
-  skuId: string
-  count: string
-  addressId?: string
+export const getMemberOrderPreAPI = (data: {
+  skuId?: string
+  count?: string
+  orderId?: string
 }) => {
   return http<OrderPreResult>({
-    method: 'GET',
-    url: '/member/order/pre/now',
+    method: 'POST',
+    url: '/order/pre',
     data,
   })
 }
-
 /**
  * 提交订单
  * @param data 请求参数
@@ -39,7 +29,7 @@ export const getMemberOrderPreNowAPI = (data: {
 export const postMemberOrderAPI = (data: OrderCreateParams) => {
   return http<{ id: string }>({
     method: 'POST',
-    url: '/member/order',
+    url: '/order',
     data,
   })
 }
@@ -51,18 +41,7 @@ export const postMemberOrderAPI = (data: OrderCreateParams) => {
 export const getMemberOrderByIdAPI = (id: string) => {
   return http<OrderResult>({
     method: 'GET',
-    url: `/member/order/${id}`,
-  })
-}
-
-/**
- * 填写订单-再次购买
- * @param id 订单id
- */
-export const getMemberOrderRepurchaseByIdAPI = (id: string) => {
-  return http<OrderPreResult>({
-    method: 'GET',
-    url: `/member/order/repurchase/${id}`,
+    url: `/order/${id}`,
   })
 }
 
@@ -74,7 +53,7 @@ export const getMemberOrderRepurchaseByIdAPI = (id: string) => {
 export const getMemberOrderConsignmentByIdAPI = (id: string) => {
   return http({
     method: 'GET',
-    url: `/member/order/consignment/${id}`,
+    url: `/order/consignment/${id}`,
   })
 }
 
@@ -85,8 +64,8 @@ export const getMemberOrderConsignmentByIdAPI = (id: string) => {
  */
 export const putMemberOrderReceiptByIdAPI = (id: string) => {
   return http<OrderResult>({
-    method: 'PUT',
-    url: `/member/order/${id}/receipt`,
+    method: 'GET',
+    url: `/order/receipt/${id}`,
   })
 }
 
@@ -98,7 +77,7 @@ export const putMemberOrderReceiptByIdAPI = (id: string) => {
 export const getMemberOrderLogisticsByIdAPI = (id: string) => {
   return http<OrderLogisticResult>({
     method: 'GET',
-    url: `/member/order/${id}/logistics`,
+    url: `/delivery/${id}`,
   })
 }
 
@@ -110,7 +89,7 @@ export const getMemberOrderLogisticsByIdAPI = (id: string) => {
 export const deleteMemberOrderAPI = (data: { ids: string[] }) => {
   return http({
     method: 'DELETE',
-    url: `/member/order`,
+    url: `/order`,
     data,
   })
 }
@@ -124,7 +103,7 @@ export const deleteMemberOrderAPI = (data: { ids: string[] }) => {
 export const getMemberOrderCancelByIdAPI = (id: string, data: { cancelReason: string }) => {
   return http<OrderResult>({
     method: 'PUT',
-    url: `/member/order/${id}/cancel`,
+    url: `/order/cancel/${id}`,
     data,
   })
 }
@@ -136,7 +115,18 @@ export const getMemberOrderCancelByIdAPI = (id: string, data: { cancelReason: st
 export const getMemberOrderAPI = (data: OrderListParams) => {
   return http<OrderListResult>({
     method: 'GET',
-    url: `/member/order`,
+    url: `/order`,
+    data,
+  })
+}
+
+/**
+ * 订单搜索
+ */
+export const getHomeOrdersSearchAPI = (data?: SearchParams) => {
+  return http<OrderListResult>({
+    method: 'POST',
+    url: '/ntk/goods/search',
     data,
   })
 }

@@ -1,8 +1,16 @@
+// @font-face {
+//   font-family: "misha";
+//   src: url('//at.alicdn.com/t/c/font_4663481_sgx9dylnan.woff2?t=1725368116185') format('woff2'),
+//     url('//at.alicdn.com/t/c/font_4663481_sgx9dylnan.woff?t=1725368116185') format('woff'),
+//     url('//at.alicdn.com/t/c/font_4663481_sgx9dylnan.ttf?t=1725368116185') format('truetype');
+// }
+
+
 @font-face {
   font-family: "misha";
-  src: url('//at.alicdn.com/t/c/font_4663481_ucs274t9my.woff2?t=1724575894902') format('woff2'),
-    url('//at.alicdn.com/t/c/font_4663481_ucs274t9my.woff?t=1724575894902') format('woff'),
-    url('//at.alicdn.com/t/c/font_4663481_ucs274t9my.ttf?t=1724575894902') format('truetype');
+  src: url('https://guagnximisa.top/uploads/font/font_4663481_sgx9dylnan.woff2') format('woff2'),
+    url('https://guagnximisa.top/uploads/font/font_4663481_sgx9dylnan.woff') format('woff'),
+    url('https://guagnximisa.top/uploads/font/font_4663481_sgx9dylnan.ttf') format('truetype');
 }
 
 [class^='icon-'],
@@ -11,6 +19,10 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-delete:before {
+  content: "\e610";
 }
 
 .icon-left:before {
